@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Segway Software | Ecosystem</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes fadeLoop { 0% { mask-position: -100% 0; } 100% { mask-position: 200% 0; } }
+        .fade-text {
+            mask-image: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+            mask-size: 200% 100%;
+            animation: fadeLoop 8s linear infinite;
+        }
+        .reveal-on-scroll { opacity: 0; transform: translateY(40px); transition: all 2s cubic-bezier(0.22, 1, 0.36, 1); }
+        .active { opacity: 1; transform: translateY(0); }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-[#050505] text-neutral-300 font-sans selection:bg-white selection:text-black">
+
+    <header class="h-screen flex flex-col justify-center items-center text-center px-6" style="perspective: 1000px;">
+        <h1 id="hero-title" class="text-7xl md:text-9xl font-bold text-white tracking-tighter transition-transform duration-200 ease-out" 
+            style="transform-style: preserve-3d;">
+            Segway Software
+        </h1>
+    </header>
+
+    <section id="about" class="py-32 px-6 max-w-3xl mx-auto text-center reveal-on-scroll">
+        <div class="relative mb-8">
+            <h3 class="text-3xl md:text-5xl font-bold text-white tracking-tight leading-tight">
+                <span class="block">We are</span>
+                <span class="block text-neutral-400">Segway Software.</span>
+            </h3>
+        </div>
+        <div class="relative">
+            <p class="font-light text-neutral-400 leading-relaxed text-base md:text-lg">
+                Segway Software is a technology company working on a variety of software and infrastructure projects. Our mission is to build high-quality, efficient, and user-friendly solutions that empower individuals and businesses to achieve their goals. With a focus on innovation and customer satisfaction, we strive to create products that make a positive impact in the world of technology.
+            </p>
+        </div>
+    </section>
+
+    <section class="py-20 px-6 flex justify-center items-center reveal-on-scroll">
+        <h2 class="text-4xl md:text-6xl font-bold text-white tracking-tight fade-text">
+            Building the next generation of technology.
+        </h2>
+    </section>
+
+    <section id="brands" class="py-20 px-6 max-w-4xl mx-auto reveal-on-scroll">
+        <h2 class="text-5xl font-bold text-white mb-16 text-center">Our Brands</h2>
+
+        <div class="flex justify-center border-b border-neutral-800 mb-12 overflow-x-auto scrollbar-hide">
+            <button onclick="updateCard('cRASO', this)" class="tab-btn relative px-8 py-5 transition-all duration-300 opacity-100 font-bold text-white">
+                <img src="download (3).png" alt="cRASO Logo" class="h-6 w-auto">
+                 
+                <div class="absolute bottom-0 inset-x-0 h-[2px] bg-white transition-all duration-300 origin-center scale-x-100"></div>
+            </button>
+            <button onclick="updateCard('Vertos SA', this)" class="tab-btn relative px-8 py-5 transition-all duration-300 opacity-30 hover:opacity-60 text-neutral-400">
+                <img src="logo (1).png" alt="Vertos SA Logo" class="h-20 w-auto">
+
+                <div class="absolute bottom-0 inset-x-0 h-[2px] bg-white transition-all duration-300 origin-center scale-x-0 opacity-0"></div>
+            </button>
+        </div>
+
+        <div id="brandCard" class="glass p-1 border border-neutral-800 transition-all duration-700">
+            <div class="grid lg:grid-cols-2 p-8 gap-8 items-center">
+                <div>
+                    <h4 class="text-4xl font-bold text-white mb-2" id="cardTitle">cRASO</h4>
+                    <p class="text-neutral-500 font-mono text-sm" id="cardEst">EST. 2026</p>
+                    <p class="mt-6 text-neutral-400 leading-relaxed" id="cardDesc">A in-development semi-advanced task management system.</p>
+                </div>
+                <img id="cardImg" src="jnj.PNG" class="h-48 w-full object-cover bg-black/50 border border-neutral-800 rounded">
+            </div>
+        </div>
+    </section>
+
+    <section class="py-32 text-center reveal-on-scroll">
+        <p class="text-neutral-500 uppercase tracking-widest text-sm mb-4">Inquiries</p>
+        <a href="mailto:support@segwaysoftware.com.us" class="text-3xl md:text-5xl font-light text-white hover:text-neutral-400 transition-all duration-500">
+            support@segwaysoftware.com.us
+        </a>
+    </section>
+
+    <script>
+        const title = document.getElementById('hero-title');
+        document.addEventListener('mousemove', (e) => {
+            const xAxis = (window.innerWidth / 2 - e.clientX) / 20; 
+            const yAxis = (window.innerHeight / 2 - e.clientY) / 20;
+            title.style.transform = `rotateY(${-xAxis}deg) rotateX(${yAxis}deg)`;
+        });
+        document.addEventListener('mouseleave', () => title.style.transform = `rotateY(0deg) rotateX(0deg)`);
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('active'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+
+        function updateCard(brand, btn) {
+            document.querySelectorAll('.tab-btn').forEach(b => {
+                b.style.opacity = '0.3';
+                b.classList.remove('text-white');
+                b.classList.add('text-neutral-400');
+                const line = b.querySelector('div');
+                line.style.transform = 'scaleX(0)';
+                line.style.opacity = '0';
+            });
+
+            btn.style.opacity = '1';
+            btn.classList.add('text-white');
+            btn.classList.remove('text-neutral-400');
+            const activeLine = btn.querySelector('div');
+            activeLine.style.transform = 'scaleX(1)';
+            activeLine.style.opacity = '1';
+
+            const data = {
+                'cRASO': { title: 'cRASO', est: 'EST. 2026', desc: 'A in-development semi-advanced task management system.', img: 'jnj.PNG' },
+                'Vertos SA': { title: 'Vertos SA', est: 'EST. 2025', desc: 'A South African‑focused hosting subsidiary under Vertos India, operated by Segway Software for next‑gen performance and reliability.', img: 'vum.PNG' }
+            };
+            
+            const card = document.getElementById('brandCard');
+            card.style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('cardTitle').innerText = data[brand].title;
+                document.getElementById('cardEst').innerText = data[brand].est;
+                document.getElementById('cardDesc').innerText = data[brand].desc;
+                document.getElementById('cardImg').src = data[brand].img;
+                card.style.opacity = '1';
+            }, 300);
+        }
+    </script>
+</body>
+</html>
